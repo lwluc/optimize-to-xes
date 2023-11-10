@@ -102,18 +102,15 @@ your development journey! 🧙‍♂️✨🏗️
 
 # Find all reflection usages: A native-image folder will be places in the root of the project.  
 java -Dspring.aot.enabled=true \
-    -agentlib:native-image-agent=config-output-dir=./native-image \
+    -agentlib:native-image-agent=config-output-dir=./src/main/resources/META-INF/native-image
     -Doptimize.base-url='<base_url>' \
-    -Doptimize.reportId='<report_id' \
-    -Doptimize.clientId='<client_id>' \
-    -Doptimize.clientSecret='client_secret' \
+    -Doptimize.report-id='<report_id' \
+    -Doptimize.client-id='<client_id>' \
+    -Doptimize.client-secret='<client_secret>' \
     -Dxes-mapping.base-path='target' \
-    -jar target/optimize-to-xes-<version>.jar
-    
-# Copy all the contents from the generated config folder to src/main/resources/META-INF/native-image
-cp -a ./native-image src/main/resources/META-INF/
+    -jar target/optimize-to-xes-*.jar
 
-# Build the native image again with the extended information on the relfection
+# Build the native image again with the extended information on the reflection
 ./mvnw clean native:compile -Pnative
 ```
 

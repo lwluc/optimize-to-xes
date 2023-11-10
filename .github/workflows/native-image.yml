@@ -1,12 +1,6 @@
 name: GraalVM Native Image builds
 
-on:
-  workflow_dispatch:
-    inputs:
-      TAG:
-        description: 'The tag to be built'
-        required: true
-        type: string
+on: push
 
 jobs:
   build:
@@ -14,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [windows-latest]
     steps:
       - uses: actions/checkout@v4
 
@@ -24,8 +18,10 @@ jobs:
           distribution: 'graalvm'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           native-image-job-reports: 'true'
-      - name: Build native-image
-        run: mvn -Pnative native:compile
+        name: Build native-image
+      - run: mvn -Pnative native:compile
+      - run: java -Dspring.aot.enabled=true -agentlib:native-image-agent=config-output-dir=./src/main/resources/META-INF/native-image -Doptimize.base-url="$BASE_URL" -Doptimize.report-id="$REPORT_ID" -Doptimize.client-id="$CLIENT_ID" -Doptimize.client-secret="$CLIENT_SECRET" -Dxes-mapping.base-path="target" -jar target/optimize-to-xes-0.3.0-SNAPSHOT.jar
+      - run: mvn -Pnative native:compile
 
       - name: Upload binary
         uses: actions/upload-artifact@v3
