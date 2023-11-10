@@ -12,8 +12,8 @@ and convert it to [XES](https://xes-standard.org/) for Predictive Process Monito
 * [🚀 Getting Started](#-getting-started)
   * [Execute native-image](#execute-native-image)
   * [Configuring `application.yaml`](#configuring-applicationyaml)
-* [👨‍💻 Develop Guide](#-develop-guide)
-  * [Build Native Image](#build-native-image)
+* [👨‍💻 Developer's Guide](#-developers-guide)
+  * [Building a Native Image](#building-a-native-image)
 
 # ✨Features
 
@@ -87,6 +87,9 @@ $ ./mvnw spring-boot:run
 
 ## Building a Native Image
 
+> **🚀📚 Requirements:**
+> * Java 21
+
 Usually, running `./mvnw clean native:compile -Pnative` should be all you need to create the native image. 🚀
 
 However, there's a little twist 🌀 – due to some reflection magic happening in the OpenXES Library, we'll need to 
@@ -99,16 +102,13 @@ your development journey! 🧙‍♂️✨🏗️
 
 # Find all reflection usages: A native-image folder will be places in the root of the project.  
 java -Dspring.aot.enabled=true \
-    -agentlib:native-image-agent=config-output-dir=./native-image \
+    -agentlib:native-image-agent=config-output-dir=./src/main/resources/META-INF/native-image \
     -Doptimize.base-url='<base_url>' \
-    -Doptimize.reportId='<report_id' \
-    -Doptimize.clientId='<client_id>' \
-    -Doptimize.clientSecret='client_secret' \
+    -Doptimize.report-d='<report_id' \
+    -Doptimize.client-id='<client_id>' \
+    -Doptimize.client-secret='client_secret' \
     -Dxes-mapping.base-path='target' \
     -jar target/optimize-to-xes-<version>.jar
-    
-# Copy all the contents from the generated config folder to src/main/resources/META-INF/native-image
-cp -a ./native-image src/main/resources/META-INF/
 
 # Build the native image again with the extended information on the relfection
 ./mvnw clean native:compile -Pnative
