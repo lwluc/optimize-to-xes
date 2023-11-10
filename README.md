@@ -12,8 +12,8 @@ and convert it to [XES](https://xes-standard.org/) for Predictive Process Monito
 * [🚀 Getting Started](#-getting-started)
   * [Execute native-image](#execute-native-image)
   * [Configuring `application.yaml`](#configuring-applicationyaml)
-* [👨‍💻 Develop Guide](#-develop-guide)
-  * [Build Native Image](#build-native-image)
+* [👨‍💻 Developer's Guide](#-developers-guide)
+  * [Building a Native Image](#building-a-native-image)
 
 # ✨Features
 
@@ -86,6 +86,9 @@ $ ./mvnw spring-boot:run
 # 👨‍💻 Developer's Guide
 
 ## Building a Native Image
+
+> **🚀📚 Requirements:**
+> * Java 21
 
 Usually, running `./mvnw clean native:compile -Pnative` should be all you need to create the native image. 🚀
 
